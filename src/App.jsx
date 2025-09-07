@@ -69,7 +69,13 @@ const App = () => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <linearGradient id="stroke-gradient" x1="0" y1="0.5" x2="0" y2="1.5">
+            <linearGradient
+              id="stroke-gradient"
+              x1="0"
+              y1="0.5"
+              x2="0"
+              y2="1.5"
+            >
               <stop offset="0%" stopColor="white" />
               <stop offset="0%" stopColor="black">
                 <animate
@@ -80,6 +86,36 @@ const App = () => {
                   begin="0s"
                   fill="freeze"
                   repeatCount="1"
+                />
+              </stop>
+            </linearGradient>
+            <linearGradient
+              id="line-gradient"
+              x1="225"
+              y1="75"
+              x2="75"
+              y2="75"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="white" offset="0" />
+              <stop stopColor="white" offset="0">
+                <animate
+                  attributeName="offset"
+                  from="0"
+                  to="1"
+                  dur="1s"
+                  begin="0.5s"
+                  fill="freeze"
+                />
+              </stop>
+              <stop stopColor="black" offset="0">
+                <animate
+                  attributeName="offset"
+                  from="0"
+                  to="1"
+                  dur="1s"
+                  begin="0.5s"
+                  fill="freeze"
                 />
               </stop>
             </linearGradient>
@@ -138,7 +174,7 @@ const App = () => {
               y1="75"
               x2="225"
               y2="75"
-              stroke="white"
+              stroke="url(#line-gradient)"
               strokeWidth="1"
             />
             <rect y="75" width="300" height="75" fill="black" />
