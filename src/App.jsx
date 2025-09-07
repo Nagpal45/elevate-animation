@@ -27,21 +27,68 @@ const App = () => {
           height="300"
           viewBox="0 0 300 150"
           xmlns="http://www.w3.org/2000/svg"
+          shape-rendering="crispEdges"
         >
           <defs>
-            <clipPath id="cut-off">
-              <rect x="75" y="0" width="150" height="75" />
-            </clipPath>
+            <linearGradient id="stroke-gradient" x1="0" y1="0.5" x2="0" y2="1.5">
+              <stop offset="0%" stopColor="white" />
+              <stop offset="0%" stopColor="black">
+                <animate
+                  attributeName="offset"
+                  from="0"
+                  to="1"
+                  dur="1s"
+                  begin="0s"
+                  fill="freeze"
+                  repeatCount="1"
+                />
+              </stop>
+            </linearGradient>
+            <linearGradient id="path-fill-gradient" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="white" />
+              <stop offset="0%" stopColor="white">
+                <animate
+                  attributeName="offset"
+                  from="0"
+                  to="1"
+                  dur="2s"
+                  begin="0s"
+                  fill="freeze"
+                  repeatCount="1"
+                />
+              </stop>
+              <stop offset="0%" stopColor="black">
+                <animate
+                  attributeName="offset"
+                  from="0"
+                  to="1"
+                  dur="2s"
+                  begin="0s"
+                  fill="freeze"
+                  repeatCount="1"
+                />
+              </stop>
+            </linearGradient>
+            <mask id="cut-off-mask">
+              <rect width="300" height="150" fill="black" />
+              <rect x="73" y="-2" width="154" height="79" fill="white" />
+            </mask>
           </defs>
           <rect width="300" height="150" fill="black" />
-          <g transform="rotate(180, 150, 75)" clipPath="url(#cut-off)">
-            <path d="M 0 0 L 300 0 L 150 150 Z" fill="white" />
+          
+          {/* Thin black border to cover potential edge artifacts */}
+          <rect x="73" y="73" width="154" height="2" fill="black" />
+          <rect x="73" y="73" width="2" height="79" fill="black" />
+          <rect x="225" y="73" width="2" height="79" fill="black" />
+          
+          <g transform="rotate(180, 150, 75)" mask="url(#cut-off-mask)">
+            <path d="M 0 0 L 300 0 L 150 150 Z" fill="url(#path-fill-gradient)" />
             <circle
               cx="75"
               cy="0"
               r="75"
               fill="black"
-              stroke="white"
+              stroke="url(#stroke-gradient)"
               strokeWidth="0.5"
             />
             <circle
@@ -49,7 +96,7 @@ const App = () => {
               cy="0"
               r="75"
               fill="black"
-              stroke="white"
+              stroke="url(#stroke-gradient)"
               strokeWidth="0.5"
             />
             <line
