@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion, useAnimationControls } from "framer-motion";
 
 const animationVariants = {
   container: {
-    initial: { y: 50 },
+    initial: { y: 50, opacity: 1 },
     animate: {
       y: 0,
       transition: {
@@ -11,6 +11,10 @@ const animationVariants = {
         ease: "easeOut",
         delay: 1,
       },
+    },
+    hide: {
+      opacity: 0,
+      transition: { duration: 1 },
     },
   },
   firstImage: {
@@ -45,28 +49,28 @@ const animationVariants = {
     initial: { offset: "0%" },
     animate: {
       offset: "100%",
-      transition: { duration: 1, delay: 0.5 },
+      transition: { duration: 1 },
     },
   },
   gradientStop2: {
     initial: { offset: 0 },
     animate: {
       offset: 1,
-      transition: { duration: 0.5, delay: 0.5 },
+      transition: { duration: 0.5 },
     },
   },
   gradientStop3: {
     initial: { offset: 0 },
     animate: {
       offset: 1,
-      transition: { duration: 1.5, delay: 1 },
+      transition: { duration: 3 },
     },
   },
   gradientStop4: {
     initial: { offset: "0%" },
     animate: {
       offset: "100%",
-      transition: { duration: 2, delay: 0.5 },
+      transition: { duration: 2 },
     },
   },
   heading: {
@@ -85,23 +89,34 @@ const animationVariants = {
 
 const App = () => {
   const controls = useAnimationControls();
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const playAnimation = async () => {
-    controls.set("initial");
-    await controls.start("animate");
+    if (isPlaying) return;
+
+    try {
+      setIsPlaying(true);
+      controls.set("initial");
+      await controls.start("animate");
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await controls.start("hide");
+    } finally {
+      setIsPlaying(false);
+    }
   };
 
   useEffect(() => {
     playAnimation();
-  }, []); 
+  }, []);
 
   return (
     <div className="h-full w-full flex items-center justify-center bg-black flex-col relative text-white">
       <button
         onClick={playAnimation}
-        className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-md transition-colors z-10"
+        disabled={isPlaying}
+        className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-md transition-colors z-10 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Replay Animation
+        {isPlaying ? "Playing..." : "Replay Animation"}
       </button>
 
       <motion.div
