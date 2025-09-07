@@ -1,24 +1,83 @@
 import "./App.css";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const App = () => {
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    setAnimate(true);
+  }, []);
+
+  const firstImageVariants = {
+    hidden: {
+      scale: 0.2,
+      rotate: -360,
+      x: -100,
+      y: -50,
+      opacity: 0.7,
+    },
+    visible: {
+      scale: 1,
+      rotate: 180,
+      x: 0,
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 1.5,
+        ease: [0.2, 0.65, 0.3, 0.9],
+        scale: {
+          duration: 1.5,
+          times: [0, 0.4, 0.7, 0.9, 1],
+          keyframes: [0.2, 0.5, 0.8, 1.1, 1], 
+          ease: [0.2, 0.65, 0.3, 0.9],
+        },
+        rotate: {
+          duration: 1.5,
+          ease: "easeOut",
+        },
+        x: {
+          duration: 1.2,
+          ease: [0.17, 0.67, 0.83, 0.97],
+        },
+        y: {
+          duration: 1.2,
+          ease: [0.17, 0.67, 0.83, 0.97],
+        }
+      }
+    }
+  };
+
   return (
     <div className="h-full w-full flex items-center justify-center bg-black flex-col">
-      <div className="h-[150px] overflow-hidden w-[200px] flex justify-center items-center">
+      <div className="relative w-[200px] h-[200px] flex items-center justify-center">
         <svg
           width="200"
           height="200"
           viewBox="0 0 300 300"
           xmlns="http://www.w3.org/2000/svg"
+          className="absolute"
         >
           <rect width="300" height="300" fill="black" />
-
+        </svg>
+        
+        <motion.svg
+          width="200"
+          height="200"
+          viewBox="0 0 300 300"
+          xmlns="http://www.w3.org/2000/svg"
+          initial="hidden"
+          animate={animate ? "visible" : "hidden"}
+          variants={firstImageVariants}
+          style={{ originX: 0.5, originY: 0.5 }}
+          className="absolute"
+        >
           <rect x="50" y="50" width="200" height="200" fill="white" />
-
           <circle cx="50" cy="50" r="100" fill="black" />
           <circle cx="250" cy="50" r="100" fill="black" />
           <circle cx="50" cy="250" r="100" fill="black" />
           <circle cx="250" cy="250" r="100" fill="black" />
-        </svg>
+        </motion.svg>
       </div>
 
       <div className="h-[150px] overflow-hidden flex justify-center items-end">
@@ -27,7 +86,6 @@ const App = () => {
           height="300"
           viewBox="0 0 300 150"
           xmlns="http://www.w3.org/2000/svg"
-          shape-rendering="crispEdges"
         >
           <defs>
             <linearGradient id="stroke-gradient" x1="0" y1="0.5" x2="0" y2="1.5">
@@ -51,8 +109,8 @@ const App = () => {
                   attributeName="offset"
                   from="0"
                   to="1"
-                  dur="2s"
-                  begin="0s"
+                  dur="1.5s"
+                  begin="0.5s"
                   fill="freeze"
                   repeatCount="1"
                 />
@@ -71,16 +129,11 @@ const App = () => {
             </linearGradient>
             <mask id="cut-off-mask">
               <rect width="300" height="150" fill="black" />
-              <rect x="73" y="-2" width="154" height="79" fill="white" />
+              <rect x="75" y="0" width="150" height="75" fill="white" />
             </mask>
           </defs>
           <rect width="300" height="150" fill="black" />
-          
-          {/* Thin black border to cover potential edge artifacts */}
-          <rect x="73" y="73" width="154" height="2" fill="black" />
-          <rect x="73" y="73" width="2" height="79" fill="black" />
-          <rect x="225" y="73" width="2" height="79" fill="black" />
-          
+
           <g transform="rotate(180, 150, 75)" mask="url(#cut-off-mask)">
             <path d="M 0 0 L 300 0 L 150 150 Z" fill="url(#path-fill-gradient)" />
             <circle
