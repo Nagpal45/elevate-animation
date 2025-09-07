@@ -1,13 +1,13 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const App = () => {
-  const [animate, setAnimate] = useState(false);
+  const [key, setKey] = useState(0);
 
-  useEffect(() => {
-    setAnimate(true);
-  }, []);
+  const resetAnimation = () => {
+    setKey((prev) => prev + 1);
+  };
 
   const firstImageVariants = {
     hidden: {
@@ -18,7 +18,7 @@ const App = () => {
       opacity: 0.7,
     },
     visible: {
-      scale: 1, 
+      scale: 1,
       rotate: 180,
       x: 0,
       y: 0,
@@ -26,9 +26,9 @@ const App = () => {
       transition: {
         duration: 1.2,
         scale: {
-          duration: 1.5, 
-          times: [0, 0.7, 1], 
-          values: [0.2, 0.7, 1], 
+          duration: 1.5,
+          times: [0, 0.7, 1],
+          values: [0.2, 0.7, 1],
         },
         rotate: {
           duration: 1,
@@ -39,11 +39,31 @@ const App = () => {
   };
 
   return (
-    <div className="h-full w-full flex items-center justify-center bg-black flex-col">
+    <div className="h-full w-full flex items-center justify-center bg-black flex-col relative">
+      <button
+        onClick={resetAnimation}
+        className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white px-3 py-1 rounded-md transition-colors z-10"
+      >
+        Replay Animation
+      </button>
+
+      <AnimationContent key={key} firstImageVariants={firstImageVariants} />
+    </div>
+  );
+};
+
+const AnimationContent = ({ firstImageVariants }) => {
+  return (
+    <motion.div
+      className="flex flex-col items-center"
+      initial={{ y: 50 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 1.2, ease: "easeOut", delay: 1 }}
+    >
       <motion.div
         className="h-[180px] overflow-hidden flex justify-center items-end bg-transparent"
         initial="hidden"
-        animate={animate ? "visible" : "hidden"}
+        animate="visible"
         variants={firstImageVariants}
         style={{ originX: 0.5, originY: 0.5 }}
       >
@@ -90,36 +110,12 @@ const App = () => {
               </stop>
             </linearGradient>
             <linearGradient
-              id="line-gradient"
-              x1="225"
-              y1="75"
-              x2="75"
-              y2="75"
-              gradientUnits="userSpaceOnUse"
+              id="path-fill-gradient"
+              x1="1"
+              y1="0"
+              x2="0"
+              y2="1"
             >
-              <stop stopColor="white" offset="0" />
-              <stop stopColor="white" offset="0">
-                <animate
-                  attributeName="offset"
-                  from="0"
-                  to="1"
-                  dur="1s"
-                  begin="0.5s"
-                  fill="freeze"
-                />
-              </stop>
-              <stop stopColor="black" offset="0">
-                <animate
-                  attributeName="offset"
-                  from="0"
-                  to="1"
-                  dur="1s"
-                  begin="0.5s"
-                  fill="freeze"
-                />
-              </stop>
-            </linearGradient>
-            <linearGradient id="path-fill-gradient" x1="1" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="white" />
               <stop offset="0%" stopColor="white">
                 <animate
@@ -151,8 +147,14 @@ const App = () => {
           </defs>
           <rect width="300" height="150" fill="black" />
 
-          <g transform="rotate(180, 150, 75)" mask="url(#cut-off-mask)">
-            <path d="M 0 0 L 300 0 L 150 150 Z" fill="url(#path-fill-gradient)" />
+          <g
+            transform="rotate(180, 150, 75)"
+            mask="url(#cut-off-mask)"
+          >
+            <path
+              d="M 0 0 L 300 0 L 150 150 Z"
+              fill="url(#path-fill-gradient)"
+            />
             <circle
               cx="75"
               cy="0"
@@ -174,17 +176,22 @@ const App = () => {
               y1="75"
               x2="225"
               y2="75"
-              stroke="url(#line-gradient)"
+              stroke="white"
               strokeWidth="1"
             />
             <rect y="75" width="300" height="75" fill="black" />
           </g>
         </svg>
       </div>
-      <h1 className="ml-[0.7em] tracking-[0.7em] font-semibold mt-4">
+      <motion.h1
+        className="ml-[0.7em] tracking-[0.7em] font-semibold mt-4"
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
+      >
         ELEVATE
-      </h1>
-    </div>
+      </motion.h1>
+    </motion.div>
   );
 };
 
