@@ -12,73 +12,54 @@ const App = () => {
   const firstImageVariants = {
     hidden: {
       scale: 0.2,
-      rotate: -360,
-      x: -100,
+      rotate: 0,
+      x: -200,
       y: -50,
       opacity: 0.7,
     },
     visible: {
-      scale: 1,
+      scale: 1, 
       rotate: 180,
       x: 0,
       y: 0,
       opacity: 1,
       transition: {
-        duration: 1.5,
-        ease: [0.2, 0.65, 0.3, 0.9],
+        duration: 1.2,
         scale: {
-          duration: 1.5,
-          times: [0, 0.4, 0.7, 0.9, 1],
-          keyframes: [0.2, 0.5, 0.8, 1.1, 1], 
-          ease: [0.2, 0.65, 0.3, 0.9],
+          duration: 1.5, 
+          times: [0, 0.7, 1], 
+          values: [0.2, 0.7, 1], 
         },
         rotate: {
-          duration: 1.5,
+          duration: 1,
           ease: "easeOut",
         },
-        x: {
-          duration: 1.2,
-          ease: [0.17, 0.67, 0.83, 0.97],
-        },
-        y: {
-          duration: 1.2,
-          ease: [0.17, 0.67, 0.83, 0.97],
-        }
-      }
-    }
+      },
+    },
   };
 
   return (
     <div className="h-full w-full flex items-center justify-center bg-black flex-col">
-      <div className="relative w-[200px] h-[200px] flex items-center justify-center">
+      <motion.div
+        className="h-[180px] overflow-hidden flex justify-center items-end bg-transparent"
+        initial="hidden"
+        animate={animate ? "visible" : "hidden"}
+        variants={firstImageVariants}
+        style={{ originX: 0.5, originY: 0.5 }}
+      >
         <svg
           width="200"
           height="200"
           viewBox="0 0 300 300"
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute"
-        >
-          <rect width="300" height="300" fill="black" />
-        </svg>
-        
-        <motion.svg
-          width="200"
-          height="200"
-          viewBox="0 0 300 300"
-          xmlns="http://www.w3.org/2000/svg"
-          initial="hidden"
-          animate={animate ? "visible" : "hidden"}
-          variants={firstImageVariants}
-          style={{ originX: 0.5, originY: 0.5 }}
-          className="absolute"
         >
           <rect x="50" y="50" width="200" height="200" fill="white" />
           <circle cx="50" cy="50" r="100" fill="black" />
           <circle cx="250" cy="50" r="100" fill="black" />
           <circle cx="50" cy="250" r="100" fill="black" />
           <circle cx="250" cy="250" r="100" fill="black" />
-        </motion.svg>
-      </div>
+        </svg>
+      </motion.div>
 
       <div className="h-[150px] overflow-hidden flex justify-center items-end">
         <svg
