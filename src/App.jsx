@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const App = () => {
@@ -89,57 +89,53 @@ const AnimationContent = ({ firstImageVariants }) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <defs>
-            <linearGradient
-              id="stroke-gradient"
-              x1="0"
-              y1="0.5"
-              x2="0"
-              y2="1.5"
-            >
+            <linearGradient id="stroke-gradient" x1="0" y1="0.5" x2="0" y2="1.5">
               <stop offset="0%" stopColor="white" />
-              <stop offset="0%" stopColor="black">
-                <animate
-                  attributeName="offset"
-                  from="0"
-                  to="1"
-                  dur="1s"
-                  begin="0s"
-                  fill="freeze"
-                  repeatCount="1"
-                />
-              </stop>
+              <motion.stop
+                offset="0%"
+                stopColor="black"
+                animate={{ offset: "100%" }}
+                transition={{ duration: 1, delay: 0.5 }}
+              />
             </linearGradient>
             <linearGradient
-              id="path-fill-gradient"
-              x1="1"
-              y1="0"
-              x2="0"
-              y2="1"
+              id="line-gradient"
+              x1="225"
+              y1="75"
+              x2="75"
+              y2="75"
+              gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%" stopColor="white" />
-              <stop offset="0%" stopColor="white">
-                <animate
-                  attributeName="offset"
-                  from="0"
-                  to="1"
-                  dur="1.5s"
-                  begin="0.5s"
-                  fill="freeze"
-                  repeatCount="1"
-                />
-              </stop>
-              <stop offset="0%" stopColor="black">
-                <animate
-                  attributeName="offset"
-                  from="0"
-                  to="1"
-                  dur="2s"
-                  begin="0s"
-                  fill="freeze"
-                  repeatCount="1"
-                />
-              </stop>
+              <stop stopColor="white" offset="0" />
+              <motion.stop
+                stopColor="white"
+                initial={{ offset: 0 }}
+                animate={{ offset: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              />
+              <motion.stop
+                stopColor="black"
+                initial={{ offset: 0 }}
+                animate={{ offset: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 }}
+              />
             </linearGradient>
+            <linearGradient id="path-fill-gradient" x1="1" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="white" />
+              <motion.stop
+                stopColor="white"
+                initial={{ offset: 0 }}
+                animate={{ offset: 1 }}
+                transition={{ duration: 1.5, delay: 1 }}
+              />
+              <motion.stop
+                offset="0%"
+                stopColor="black"
+                animate={{ offset: "100%" }}
+                transition={{ duration: 2, delay: 0.5 }}
+              />
+            </linearGradient>
+
             <mask id="cut-off-mask">
               <rect width="300" height="150" fill="black" />
               <rect x="75" y="0" width="150" height="75" fill="white" />
