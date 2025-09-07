@@ -2,13 +2,6 @@
 
 This is a React application built with Vite, featuring animated geometric shapes and stars using Framer Motion and styled with Tailwind CSS. The app demonstrates smooth animations and transitions for an engaging user experience.
 
-## Features
-
-- Animated Star component with scaling, rotation, and movement effects.
-- Geometric Shape component with gradient animations.
-- Replay functionality for animations.
-- Responsive design with dark theme.
-
 ## Getting Started
 
 ### Prerequisites
